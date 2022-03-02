@@ -42,6 +42,9 @@ jobs:
       - name: 'Node.js version'
         run: node --version
 
+      - name: 'npm version'
+        run: npm --version
+
       - name: 'node-gyp version'
         run: npm run node-gyp --version
 
