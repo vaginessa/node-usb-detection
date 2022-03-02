@@ -39,6 +39,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install libudev-dev
 
+      - name: 'Node.js version'
+        run: node --version
+
+      - name: 'node-gyp version'
+        run: npm run node-gyp --version
+
+      - name: 'node-gyp configuration'
+        run: npm run node-gyp configure --verbose
+
       - name: 'Install dependencies and build from source'
         run: npm ci --build-from-source
 
