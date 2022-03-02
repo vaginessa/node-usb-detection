@@ -45,11 +45,13 @@ jobs:
       - name: 'node-gyp version'
         run: npm run node-gyp --version
 
-      - name: 'node-gyp configuration'
-        run: npm run node-gyp configure --verbose
-
       - name: 'Install dependencies and build from source'
         run: npm ci --build-from-source
+
+      # We run this after `npm ci` so that `nan` is installed probably
+      - name: 'node-gyp configuration (for debugging)'
+        if: ${{ always() }}
+        run: npm run node-gyp configure --verbose
 
       # TODO: Tests are disabled until we have tests which are
       # suitable for CI and don't require manual interaction.
