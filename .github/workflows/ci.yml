@@ -45,11 +45,11 @@ jobs:
       # For Windows and npm <= 6
       - name: 'Install the latest version of node-gyp'
         if: ${{ matrix.os == 'windows' && (matrix.node === '12' || matrix.node === '14') }}
-        run: @FOR /f "tokens=*" %i IN ('where node') DO cd/d "%~dpi" && cd node_modules\npm\node_modules\npm-lifecycle && npm install node-gyp@latest
+        run: \@FOR /f "tokens=*" %i IN ('where node') DO cd/d "%~dpi" && cd node_modules\npm\node_modules\npm-lifecycle && npm install node-gyp@latest
       # For Windows and npm >= 7
       - name: 'Install the latest version of node-gyp'
         if: ${{ matrix.os == 'windows' && (matrix.node === '16') }}
-        run: @FOR /f "tokens=*" %i IN ('where node') DO cd/d "%~dpi" && cd node_modules\npm\node_modules\@npmcli\run-script && npm install node-gyp@latest
+        run: \@FOR /f "tokens=*" %i IN ('where node') DO cd/d "%~dpi" && cd node_modules\npm\node_modules\@npmcli\run-script && npm install node-gyp@latest
 
       - name: 'Install Linux dependencies'
         if: ${{ matrix.os == 'Ubuntu' }}
