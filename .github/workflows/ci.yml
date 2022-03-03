@@ -46,6 +46,12 @@ jobs:
       - name: 'Install npm@^8 to get a more up to date bundled node-gyp'
         run: npm install --global npm@8.3.1
 
+      # Fix `Error: Could not find any Visual Studio installation to use`
+      # See https://github.com/nodejs/node-gyp/tree/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs#issues-finding-the-installed-visual-studio
+      - name: 'Set msvs_version so node-gyp can find the Visual Studio install'
+        if: ${{ matrix.os == 'Windows' }}
+        run: npm config set msvs_version 2022
+
       - name: 'Install Linux dependencies'
         if: ${{ matrix.os == 'Ubuntu' }}
         run: |
