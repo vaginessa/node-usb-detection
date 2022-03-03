@@ -56,7 +56,7 @@ jobs:
           "@FOR /f \"tokens=*\" %i IN ('where node') DO cd/d \"%~dpi\""
           cd node_modules\\npm\\node_modules\\npm-lifecycle
           npm install node-gyp@^8
-          npm install --global node-gyp@latest
+          npm install --global node-gyp@^8
           for /f "delims=" %P in ('npm prefix -g') do npm config set node_gyp "%P\node_modules\node-gyp\bin\node-gyp.js"
         shell: cmd
       # For Windows and npm >= 7
