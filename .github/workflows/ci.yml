@@ -33,6 +33,16 @@ jobs:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
 
+      # FIXME: Install latest v8 once
+      # https://github.com/actions/setup-node/issues/411#issuecomment-1025543081
+      # is fixed.
+      #
+      # Even though we install a new version of node-gyp locally in
+      # the project, the CI always seems to use the npm bundled version of
+      # node-gyp. Even following the instructions from the docs, I could get it working
+      # on all other platforms except for Windows and npm@6, see
+      # - https://github.com/nodejs/node-gyp/blob/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs/Updating-npm-bundled-node-gyp.md
+      # - https://github.com/nodejs/node-gyp/blob/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs/Force-npm-to-use-global-node-gyp.md
       - name: 'Install npm@^8 to get a more up to date bundled node-gyp'
         run: npm install --global npm@8.3.1
 
