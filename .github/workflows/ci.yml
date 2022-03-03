@@ -34,7 +34,7 @@ jobs:
           architecture: ${{ matrix.arch }}
 
       - name: 'Install npm@^8 to get a more up to date bundled node-gyp'
-        run: npm install npm@^8
+        run: npm install npm@^8 --global
 
       - name: 'Install Linux dependencies'
         if: ${{ matrix.os == 'Ubuntu' }}
