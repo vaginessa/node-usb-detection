@@ -4,19 +4,17 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: 'Build on Node v${{ matrix.node }} ${{ matrix.os }} ${{ matrix.arch }}'
-    runs-on: ${{ matrix.os }}-${{ matrix.os_version }}
+    name: 'Build on Node v${{ matrix.node }} ${{ matrix.os.name }} ${{ matrix.arch }}'
+    runs-on: ${{ matrix.os.name }}-${{ matrix.os.version }}
 
     strategy:
       matrix:
-        os: [Ubuntu, Windows, macOS]
-        os_version: [latest]
-        arch: [x64]
-        node: ['12', '14', '16']
-        include:
-          - os: Windows
-            arch: x86
-            node: '12'
+        os:
+          - name: Ubuntu
+            version: latest
+          - name: macOS
+            version: latest
+          - name: Windows
             # Using the `windows-2019` runner instead of latest(`windows-2022`)
             # because the build was last known working on that version of runner and
             # `prebuild` fails to find the 2022 Visual Studio install because
@@ -25,15 +23,25 @@ jobs:
             #
             # Also some more context around this problem in this internal issue,
             # https://github.com/MadLittleMods/node-usb-detection/issues/164
-            os_version: 2019
-          - os: Windows
+            version: 2019
+        arch: [x64]
+        node: ['12', '14', '16']
+        include:
+          - os:
+              name: Windows
+              version: 2019
+            arch: x86
+            node: '12'
+          - os: 
+              name: Windows
+              version: 2019
             arch: x86
             node: '14'
-            os_version: 2019
-          - os: Windows
+          - os: 
+              name: Windows
+              version: 2019
             arch: x86
             node: '16'
-            os_version: 2019
 
     steps:
       - name: 'Checkout repository'
@@ -63,11 +71,11 @@ jobs:
       #
       # This is commented out because we're using `windows-2019` runners atm
       # - name: 'Set msvs_version so node-gyp can find the Visual Studio install'
-      #   if: ${{ matrix.os == 'Windows' }}
+      #   if: ${{ matrix.os.name == 'Windows' }}
       #   run: npm config set msvs_version 2022
 
       - name: 'Install Linux dependencies'
-        if: ${{ matrix.os == 'Ubuntu' }}
+        if: ${{ matrix.os.name == 'Ubuntu' }}
         run: |
           sudo apt-get update
           sudo apt-get install libudev-dev
@@ -104,7 +112,7 @@ jobs:
         if: ${{ matrix.node == '14' }}
         uses: actions/upload-artifact@v2
         with:
-          name: prebuilds-${{ matrix.os }}-${{ matrix.arch }}
+          name: prebuilds-${{ matrix.os.name }}-${{ matrix.arch }}
           path: prebuilds
 
   check:
