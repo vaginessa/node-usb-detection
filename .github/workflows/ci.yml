@@ -5,23 +5,35 @@ on: [push, pull_request]
 jobs:
   build:
     name: 'Build on Node v${{ matrix.node }} ${{ matrix.os }} ${{ matrix.arch }}'
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}-${{ matrix.os_version }}
 
     strategy:
       matrix:
         os: [Ubuntu, Windows, macOS]
+        os_version: [latest]
         arch: [x64]
         node: ['12', '14', '16']
         include:
           - os: Windows
             arch: x86
             node: '12'
+            # Using the `windows-2019` runner instead of latest(`windows-2022`)
+            # because the build was last known working on that version of runner and
+            # `prebuild` fails to find the 2022 Visual Studio install because
+            # it's internally using an old version of `node-gyp`, see
+            # https://github.com/prebuild/prebuild/issues/286
+            #
+            # Also some more context around this problem in this internal issue,
+            # https://github.com/MadLittleMods/node-usb-detection/issues/164
+            os_version: 2019
           - os: Windows
             arch: x86
             node: '14'
+            os_version: 2019
           - os: Windows
             arch: x86
             node: '16'
+            os_version: 2019
 
     steps:
       - name: 'Checkout repository'
