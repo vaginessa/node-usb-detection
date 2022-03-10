@@ -45,7 +45,7 @@ jobs:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
 
-      # FIXME: Install latest v8 once
+      # FIXME: Install `npm@^8` (latest v8) once
       # https://github.com/actions/setup-node/issues/411#issuecomment-1025543081
       # is fixed.
       #
@@ -60,9 +60,11 @@ jobs:
 
       # Fix `Error: Could not find any Visual Studio installation to use`
       # See https://github.com/nodejs/node-gyp/tree/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs#issues-finding-the-installed-visual-studio
-      - name: 'Set msvs_version so node-gyp can find the Visual Studio install'
-        if: ${{ matrix.os == 'Windows' }}
-        run: npm config set msvs_version 2022
+      #
+      # This is commented out because we're using `windows-2019` runners atm
+      # - name: 'Set msvs_version so node-gyp can find the Visual Studio install'
+      #   if: ${{ matrix.os == 'Windows' }}
+      #   run: npm config set msvs_version 2022
 
       - name: 'Install Linux dependencies'
         if: ${{ matrix.os == 'Ubuntu' }}
